@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>task</collection>
+        <condition>new x_snc_dh_pers_int.PersonaInteractions().hasInteractions(current,current.comments ? current.comments.getJournalEntry(1) : current.work_notes.getJournalEntry(1));</condition>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition table="task">commentsVALCHANGES^ORwork_notesVALCHANGES^EQ<item endquery="false" field="comments" goto="false" newquery="false" operator="VALCHANGES" or="false" value=""/>
+            <item endquery="false" field="work_notes" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter_condition>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Execute Persona Interactions</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[//new x_snc_dh_pers_int.PersonaInteractions().hasInteractions(current,current.comments ? current.comments.getJournalEntry(1) : current.work_notes.getJournalEntry(1));
+(function executeRule(current, previous /*null when async*/) {
+	
+	var subflow_sys_ids = new x_snc_dh_pers_int.PersonaInteractions().getInteractions(current,current.comments ? current.comments.getJournalEntry(1) : current.work_notes.getJournalEntry(1));
+
+	var input_text = current.comments ? current.comments.getJournalEntry(1) : current.work_notes.getJournalEntry(1);
+	var contains_mentions = input_text.match(/\@\[(.*?)\]/gm);
+	
+	if(contains_mentions){
+		
+		try {
+			var inputs = {};
+			inputs['record'] = current.sys_id; 
+			inputs['table'] = current.sys_class_name;
+			inputs['subflows'] = subflow_sys_ids.join();
+			var sys_user = "";
+			if(current.comments){
+				inputs['type'] = "comments";
+				inputs['message'] = current.comments + "";
+				var comment = current.comments.getJournalEntry(1);
+				var temp_match_c = comment.match(/\[(.*?)\]/);
+				var sys_user_c = temp_match_c[1].split(":");
+				sys_user = sys_user_c[0];
+			}else if(current.work_notes){
+				inputs['message'] = current.work_notes + "";
+				inputs['type'] = "work_notes";
+				var work_notes = current.work_notes.getJournalEntry(1);
+				var temp_match_w_n = work_notes.match(/\[(.*?)\]/);
+				var sys_user_w_n = temp_match_w_n[1].split(":");
+				sys_user = sys_user_w_n[0];
+			}
+			inputs['mention'] = sys_user;
+			sn_fd.FlowAPI.getRunner().subflow('global.persona_interaction_main').inBackground().withInputs(inputs).run();	
+		} catch (ex) {
+			var message = ex.getMessage();
+			gs.error(message);
+		}
+	}
+
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-20 16:38:00</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>917011c3dbe7a010b050bd51399619e6</sys_id>
+        <sys_mod_count>16</sys_mod_count>
+        <sys_name>Execute Persona Interactions</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="DemoHub Persona Interactions" source="x_snc_dh_pers_int">5b870907dba7a010b050bd513996196a</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
+        <sys_update_name>sys_script_917011c3dbe7a010b050bd51399619e6</sys_update_name>
+        <sys_updated_by>enrique.castro</sys_updated_by>
+        <sys_updated_on>2021-06-28 15:42:46</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=917011c3dbe7a010b050bd51399619e6"/>
+</record_update>

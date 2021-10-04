@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_snc_dh_pers_int.PersonaInteractionClientUtils</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <name>PersonaInteractionClientUtils</name>
+        <script><![CDATA[var PersonaInteractionClientUtils = Class.create();
+PersonaInteractionClientUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+
+    validateUserKeyphrase: function() {
+        try {
+            //get parameters 
+            var keyphrase = this.getParameter('sysparm_keyphrase') + "";
+            var personaInteractionSysID = this.getParameter('sysparm_personaInteractionSysID');
+            //get the persona interaction record key_phrases 
+			if(keyphrase == ""){
+				return "the Comment/Worknote is empty";
+			}
+            if (keyphrase.indexOf("|") > 0) {
+                return 'The Comment/Worknote can not contain pipe caracter "|"';
+            }
+            var gr = new GlideRecord('x_snc_dh_pers_int_persona_interaction');
+            gr.get(personaInteractionSysID);
+            var str = gr.key_phrases + "";
+            str = str.toLowerCase();
+            keyphrase = keyphrase.toLowerCase();
+            var array = str.split("|");
+            //see if the keyphrase exist in the persona interaction key_phrases 
+            var res = array.indexOf(keyphrase);
+            if (res < 0) {
+                return "The Comment/Worknote doesn't match the keyphrases in this record"; //the key Phrase was not found 
+            } else {
+                return true; //the key Phrase was found 
+            }
+        } catch (ex) {
+            //return error message 
+            var message = ex.message;
+            return message;
+        }
+
+    },
+    validateUserPermission: function() {
+        /*var impUser = new GlideImpersonate();
+        impUser.impersonate(userSysID);*/
+        try {
+            //get the current user before impersonate 
+            var originalUser = gs.getUserID();
+            //get parameters 
+            var userSysID = this.getParameter('sysparm_userSysID');
+            var tableRecord = this.getParameter('sysparm_tableRecord');
+            //impersonate user 
+			if (userSysID == "") {
+                return "The user is empty";
+            }
+            var gruser = new GlideRecord("sys_user");
+            gruser.addQuery("sys_id", userSysID);
+            gruser.query();
+            if (!gruser.next()) {
+                return "the user mentioned does not exist";
+            }
+            var gr = new GlideRecord("sys_db_object");
+            gr.addQuery("sys_id", tableRecord);
+            gr.query();
+            if (gr.next()) {
+                var table_name = gr.name;
+                var impUser = new global.impersonateUser();
+                impUser.impersonate(userSysID);
+                //see if the mentioned user has read access to the table 
+                var now_GR = new GlideRecord(table_name);
+                if (now_GR.canRead()) {
+                    //impersonate back to the original user
+                    impUser.impersonate(originalUser);
+                    return true;
+                } else {
+                    //impersonate back to the original user
+                    impUser.impersonate(originalUser);
+                    return "The user mentioned can not read/update this record";
+                }
+            } else {
+                return "The table does not exist";
+            }
+
+
+        } catch (ex) {
+            //return error message 
+            var message = ex.message;
+            return message;
+        }
+    },
+    validateScopeReadAccess: function() {
+        try {
+            //get parameters 
+            var table = this.getParameter('sysparm_table');
+            if (table == "") {
+                return "The table is empty";
+            }
+            var gr = new GlideRecord("sys_db_object");
+            //gr.get(table);
+            gr.addQuery("sys_id", table);
+            gr.query();
+            if (gr.next()) {
+                var table_name = gr.name;
+                //see if the current user has read access to the table 
+                var now_GR = new GlideRecord(table_name);
+                return now_GR.canRead() ? true : "The current user cannot read/update this record, there may be that you have cross-scope access privileges";
+            } else {
+                return "The table does not exist";
+            }
+
+        } catch (ex) {
+            //return error message 
+            var message = ex.message;
+            return message;
+        }
+
+    },
+    executeFlow: function() {
+        try {
+            //get parameters
+            var user = this.getParameter('sysparm_user');
+            var record = this.getParameter('sysparm_record');
+            var keyphrase = this.getParameter('sysparm_keyphrase');
+            var type = this.getParameter('sysparm_type');
+            var table = this.getParameter('sysparm_table');
+            var subflow_ID = this.getParameter('sysparm_subflow');
+            //fill the inputs
+            var inputs = {};
+            inputs['table'] = table; // Table Name 
+            inputs['record'] = record; // Sys ID (GUID) 
+            inputs['type'] = type; // String 
+            inputs['mention'] = user; // Sys ID (GUID) 
+            inputs['message'] = keyphrase; // String  
+            inputs['subflows'] = subflow_ID; // String 
+            //run the subflow 
+            //var result = sn_fd.FlowAPI.getRunner().subflow('global.persona_interaction_main').inForeground().withInputs(inputs).run();
+            var result = sn_fd.Subflow.startAsync('global.persona_interaction_main', inputs);
+            //var outputs = result.getOutputs();
+            //return the result, this contains the context sys_id
+            //return true;
+            var obj = {};
+            obj.contextId = result.contextId;
+            obj.result = true;
+
+            return JSON.stringify(obj);
+        } catch (ex) {
+            //return error message 
+            var message = ex.message;
+            return message;
+        }
+
+    },
+    checkFlowStatus: function() {
+        try {
+            //get parameters
+            var subFlowid = this.getParameter('sysparm_subflow');
+            //check the context status 
+            var grf = new GlideRecord('sys_hub_flow');
+            grf.get(subFlowid);
+            var name = grf.name + "";
+            var gr = new GlideRecord('sys_flow_context');
+            gr.addQuery('name', name);
+            gr.orderByDesc('sys_created_on');
+            gr.setLimit(1);
+            gr.query();
+            var instance = gs.getProperty('instance_name');
+
+            var result = {
+                'state': '',
+                'url': 'https://' + instance + '.service-now.com/$flow-designer.do#/operations/context/',
+                'type': 'String'
+            };
+            if (gr.next()) {
+                result.state = gr.state + "";
+                result.url += gr.getValue('sys_id');
+                result.context = gr.getValue('sys_id') + "";
+            }
+            //return de state and url 
+            return JSON.stringify(result);
+        } catch (ex) {
+            //return error message 
+            return ex.message;
+        }
+
+    },
+    type: 'PersonaInteractionClientUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>enrique.castro</sys_created_by>
+        <sys_created_on>2021-06-28 14:38:46</sys_created_on>
+        <sys_id>e37804dddb09b4105e214e79139619c0</sys_id>
+        <sys_mod_count>64</sys_mod_count>
+        <sys_name>PersonaInteractionClientUtils</sys_name>
+        <sys_package display_value="DemoHub Persona Interactions" source="x_snc_dh_pers_int">5b870907dba7a010b050bd513996196a</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
+        <sys_update_name>sys_script_include_e37804dddb09b4105e214e79139619c0</sys_update_name>
+        <sys_updated_by>enrique.castro</sys_updated_by>
+        <sys_updated_on>2021-07-20 13:19:45</sys_updated_on>
+    </sys_script_include>
+</record_update>

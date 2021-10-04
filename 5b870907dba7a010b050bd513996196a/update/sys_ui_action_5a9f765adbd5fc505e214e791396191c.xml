@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_action">
+    <sys_ui_action action="INSERT_OR_UPDATE">
+        <action_name>test_pi</action_name>
+        <active>true</active>
+        <client>true</client>
+        <client_script_v2><![CDATA[function onClick(g_form) {
+
+}]]></client_script_v2>
+        <comments/>
+        <condition>current.subflow != "" &amp;&amp; current.key_phrases != "" </condition>
+        <form_action>true</form_action>
+        <form_button>true</form_button>
+        <form_button_v2>false</form_button_v2>
+        <form_context_menu>false</form_context_menu>
+        <form_link>false</form_link>
+        <form_menu_button_v2>false</form_menu_button_v2>
+        <form_style>primary</form_style>
+        <hint/>
+        <isolate_script>true</isolate_script>
+        <list_action>false</list_action>
+        <list_banner_button>false</list_banner_button>
+        <list_button>false</list_button>
+        <list_choice>false</list_choice>
+        <list_context_menu>false</list_context_menu>
+        <list_link>false</list_link>
+        <list_save_with_form_button>false</list_save_with_form_button>
+        <list_style/>
+        <messages/>
+        <name>Test PI</name>
+        <onclick>run_test_pi()</onclick>
+        <order>100</order>
+        <script><![CDATA[function run_test_pi() {
+    var sys_id = g_form.getUniqueValue();
+	//alert(g_form.getDisplayBox('subflow').value);
+    var gm = new GlideModal("x_snc_dh_pers_int_test_pi");
+	gm.setBackdropStatic(true);
+    gm.setTitle("Evaluate " + g_form.getValue("name") + " Persona Interaction"); //Set the dialog title
+    gm.setWidth(550); //Set the dialog width
+    gm.setPreference("sysparm_sys_id", sys_id);
+	gm.setPreference("sysparm_subflowid", g_form.getValue("subflow"));
+	//gm.setPreference("sysparm_scopeid", g_form.getValue("sys_scope"));
+    gm.render(); //Open the dialog
+}]]></script>
+        <show_insert>true</show_insert>
+        <show_multiple_update>false</show_multiple_update>
+        <show_query>false</show_query>
+        <show_update>true</show_update>
+        <sys_class_name>sys_ui_action</sys_class_name>
+        <sys_created_by>enrique.castro</sys_created_by>
+        <sys_created_on>2021-07-14 16:40:46</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>5a9f765adbd5fc505e214e791396191c</sys_id>
+        <sys_mod_count>16</sys_mod_count>
+        <sys_name>Test PI</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="DemoHub Persona Interactions" source="x_snc_dh_pers_int">5b870907dba7a010b050bd513996196a</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
+        <sys_update_name>sys_ui_action_5a9f765adbd5fc505e214e791396191c</sys_update_name>
+        <sys_updated_by>enrique.castro</sys_updated_by>
+        <sys_updated_on>2021-07-19 15:53:15</sys_updated_on>
+        <table>x_snc_dh_pers_int_persona_interaction</table>
+        <ui11_compatible>true</ui11_compatible>
+        <ui16_compatible>true</ui16_compatible>
+    </sys_ui_action>
+</record_update>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[gel("ok_button").innerHTML = 'Test';
+function validateData() {
+    var PI_sys_id = gel("sys_id").value;
+    var keyphrase = gel("keyphrase").value;
+    var sys_user = gel("sys_user").value;
+    var table = gel("table").value;
+    var record = gel("record").value;
+    var subflowid = gel("subflowid").value;
+    gel("testing_flow").innerHTML = "";
+    //var testing_p = gel("testing_p").innerHTML;
+    gel("testing_steps").innerHTML = '<p style="color:black;">test log: </p>';
+    var ga = new GlideAjax('PersonaInteractionClientUtils');
+    ga.addParam('sysparm_name', 'validateUserKeyphrase');
+    ga.addParam('sysparm_keyphrase', keyphrase);
+    ga.addParam('sysparm_personaInteractionSysID', PI_sys_id);
+    ga.getXML(validateUserKeyphrase);
+
+    function validateUserKeyphrase(response) {
+        var answer = response.responseXML.documentElement.getAttribute("answer");
+        if (answer == "true") {
+            gel("testing_steps").innerHTML += '<p style="color:green;">' + "The Comment/Worknote match the keyphrases in this record" + '</p>';
+        } else {
+            gel("testing_steps").innerHTML += '<p style="color:red;">' + answer + '</p>';
+        }
+        //alert(typeof(answer));
+    }
+    setTimeout(function() {
+        var ga1 = new GlideAjax('PersonaInteractionClientUtils');
+        ga1.addParam('sysparm_name', 'validateUserPermission');
+        ga1.addParam('sysparm_userSysID', sys_user);
+        ga1.addParam('sysparm_tableRecord', table);
+        ga1.getXML(validateUserPermission);
+
+        function validateUserPermission(response) {
+            var answer = response.responseXML.documentElement.getAttribute("answer");
+            if (answer == "true") {
+                gel("testing_steps").innerHTML += '<p style="color:green;">' + "The user mentioned can read/update this record" + '</p>';
+            } else if (answer == "The table does not exist") {
+gel("testing_steps").innerHTML += "";
+            } else {
+                gel("testing_steps").innerHTML += '<p style="color:red;">' + answer + '</p>';
+            }
+            //alert(typeof(answer));
+        }
+
+    }, 500);
+    setTimeout(function() {
+        var ga1 = new GlideAjax('PersonaInteractionClientUtils');
+        ga1.addParam('sysparm_name', 'validateScopeReadAccess');
+        ga1.addParam('sysparm_table', table);
+        ga1.getXML(validateScopeReadAccess);
+
+        function validateScopeReadAccess(response) {
+            var answer = response.responseXML.documentElement.getAttribute("answer");
+            if (answer == "true") {
+                gel("testing_steps").innerHTML += '<p style="color:green;">' + "The current user can read/update this record" + '</p>';
+            } else {
+                gel("testing_steps").innerHTML += '<p style="color:red;">' + answer + '</p>';
+            }
+            //alert(typeof(answer));
+        }
+
+    }, 1000);
+	function loopTimeOut() { 
+        setTimeout(function() {
+            var ga1 = new GlideAjax('PersonaInteractionClientUtils');
+            ga1.addParam('sysparm_name', 'checkFlowStatus');
+            ga1.addParam('sysparm_subflow', subflowid);
+            ga1.getXML(executeFlow);
+
+            function executeFlow(response) {
+                var answer = response.responseXML.documentElement.getAttribute("answer");
+                var obj = JSON.parse(answer);
+                gel("testing_flow").innerHTML = '<p style="color:green;">Subflow state: ' + obj.state + '</p>';
+                if (obj.state == "ERROR") {
+                    gel("testing_flow").innerHTML += '<p style="color:red;">' + 'There was an error in the subflow, <a href="' + obj.url + '" target="_blank"> here is the link to the subflow context</a>' + '</p>';
+                } else if (obj.state == "IN_PROGRESS") {
+                    loopTimeOut();
+                } else if (obj.state == "COMPLETE") {
+                    gel("testing_flow").innerHTML += '<p style="color:green;">' + 'The subflow has been completed succesfully <a href="' + obj.url + '" target="_blank"> here is the link to the subflow context</a>' + '</p>';
+                }
+
+            }
+
+        }, 3000);
+    }
+    setTimeout(function() {
+        var ga1 = new GlideAjax('PersonaInteractionClientUtils');
+        ga1.addParam('sysparm_name', 'executeFlow');
+        ga1.addParam('sysparm_user', sys_user);
+        ga1.addParam('sysparm_record', record);
+        ga1.addParam('sysparm_keyphrase', keyphrase);
+        ga1.addParam('sysparm_type', "comments");
+        ga1.addParam('sysparm_table', table);
+        ga1.addParam('sysparm_subflow', subflowid);
+        ga1.getXML(executeFlow);
+
+        function executeFlow(response) {
+            var answer = response.responseXML.documentElement.getAttribute("answer");
+            var obj = JSON.parse(answer);
+            if (obj.result == true) {
+                gel("testing_steps").innerHTML += '<p style="color:green;">' + "The main flow can be executed without problems" + '</p>';
+				loopTimeOut();
+            } else {
+				mainFlowError = true;
+                gel("testing_steps").innerHTML += '<p style="color:red;">' + answer + '</p>';
+            }
+
+        }
+
+    }, 1100);
+
+
+    
+	
+
+	
+    //alert(PI_sys_id + " : "  +keyphrase+ " : " +sys_user+ " : " +table+ " : " + phase + " :: " +testing_p);
+    /*var gm = new GlideModal("x_snc_dh_pers_int_test_pi_steps");
+    gm.setTitle("Evaluate " + g_form.getValue("name") + " Persona Interaction test"); //Set the dialog title
+    gm.setWidth(550); //Set the dialog width
+    gm.setPreference("sysparm_sys_id", sys_id);
+    gm.render(); //Open the dialog*/
+    //GlideDialogWindow.get().destroy();
+
+}]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_snc_dh_pers_int_test_pi.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<style>
+		.column {
+		float: left;
+		width: 50%;
+		padding: 0px 5px;
+		}
+
+		.row {
+		padding: 0px 5px;
+		}
+
+		/* Clear floats after the columns */
+		.row:after {
+		content: "";
+		display: table;
+		clear: both;
+		}
+		#cancel_button{
+		background: red;
+		color: white;
+		border-color: #10463f;
+		}
+	</style>
+	<!--<g:evaluate var="jvar_value" jelly="true">
+		var state = '0';
+		state;
+	</g:evaluate>
+	
+	<j:if test="${jvar_value == '0'}">
+		</j:if>
+	
+		<j:if test="${jvar_value == '1'}">
+			<p>test</p>
+		</j:if>
+    -->
+		<g:ui_form>
+			<!-- Get values from dialog preferences passed in -->
+			<j:set var="jvar_sys_id" value='${sysparm_sys_id}'/>
+            <j:set var="jvar_subflowid" value='${sysparm_subflowid}'/>
+			<!-- Set up form fields and labels -->
+			<div>
+				<h4><strong>Comment/Worknote:</strong>&#160;</h4><input required="true" class="form-control" type="text" label="" name="keyphrase" id="keyphrase"/>
+			</div>
+			<div>
+				<h4><strong>User:</strong>&#160;</h4> <g:ui_reference mandatory="true" name="sys_user" id="sys_user" table="sys_user" query="" completer="AJAXTableCompleter" columns="user_id"/>
+			</div>
+			<div >
+				<h4><strong>Table:</strong>&#160;</h4> <g:ui_reference mandatory="true" name="table" id="table" table="sys_db_object" query="" completer="AJAXTableCompleter" columns="name"/>
+			</div>
+			<div >
+				<h4><strong>Record:</strong>&#160;</h4> <g:ui_reference mandatory="true" name="record" id="record" table="task" query="" completer="AJAXTableCompleter" columns="sys_id"/>
+			</div>
+
+			<g:ui_input_field label="" type="hidden" name="sys_id" id="sys_id" value="${jvar_sys_id}"/>
+			<g:ui_input_field label="" type="hidden" name="subflowid" id="subflowid" value="${jvar_subflowid}"/>
+			<hr></hr>
+			<div style="float: right;">
+				<g:dialog_buttons_ok_cancel ok="return validateData()" ok_type="button" cancel_type="button" />
+			</div>
+			<div id="testing_steps" >
+				
+			</div>
+			<div id="testing_flow" >
+				
+			</div>
+		</g:ui_form>
+
+		</j:jelly>]]></html>
+        <name>test_pi</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>enrique.castro</sys_created_by>
+        <sys_created_on>2021-07-14 17:26:06</sys_created_on>
+        <sys_id>ff9ac3d6db19fc505e214e7913961903</sys_id>
+        <sys_mod_count>92</sys_mod_count>
+        <sys_name>test_pi</sys_name>
+        <sys_package display_value="DemoHub Persona Interactions" source="x_snc_dh_pers_int">5b870907dba7a010b050bd513996196a</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
+        <sys_update_name>sys_ui_page_ff9ac3d6db19fc505e214e7913961903</sys_update_name>
+        <sys_updated_by>enrique.castro</sys_updated_by>
+        <sys_updated_on>2021-07-19 17:14:23</sys_updated_on>
+    </sys_ui_page>
+</record_update>

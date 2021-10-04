@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_snc_dh_pers_int.PersonaInteractions</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>PersonaInteractions</name>
+        <script><![CDATA[var PersonaInteractions = Class.create();
+PersonaInteractions.prototype = {
+    initialize: function() {},
+    hasInteractions: function(current_record, comment) {
+        try {
+            comment = comment.toLowerCase();
+
+            //get interactions pointing to the record's table
+            var has_interactions = false;
+            var gth = new GlideTableHierarchy(current_record.getTableName());
+            var tables = gth.getTables();
+            var gr_int = new GlideRecord("x_snc_dh_pers_int_persona_interaction");
+            var grOR = gr_int.addQuery('table', tables[0]);
+            for (var i = 1; i < tables.length; i++) {
+                grOR.addOrCondition('table', tables[i]);
+            }
+            gr_int.query();
+
+            //verify that the filter and key phrases match with the given record
+            while (gr_int.next()) {
+                var res = GlideFilter.checkRecord(current_record, gr_int.filter + "", true);
+                if (res) {
+                    var key_phrases_str = gr_int.key_phrases + "";
+                    var key_phrases = [];
+                    if (key_phrases_str != "") {
+                        key_phrases = key_phrases_str.split('|');
+                        key_phrases.forEach(function(phrase) {
+                            if (comment.includes(phrase.toLowerCase())) {
+                                has_interactions = true;
+                            }
+
+                        });
+
+                    }
+
+                }
+            }
+            return has_interactions;
+
+        } catch (ex) {
+            gs.error(ex.message);
+        }
+
+    },
+    getInteractions: function(current_record, comment) {
+        try {
+            comment = comment.toLowerCase();
+            var ap_interactions = [];
+
+            //get interactions pointing to the record's table
+            var has_interactions = false;
+            var gth = new GlideTableHierarchy(current_record.getTableName());
+            var tables = gth.getTables();
+            var gr_int = new GlideRecord("x_snc_dh_pers_int_persona_interaction");
+            var grOR = gr_int.addQuery('table', tables[0]);
+            for (var i = 1; i < tables.length; i++) {
+                grOR.addOrCondition('table', tables[i]);
+            }
+            //var gr_int = new GlideRecord("x_snc_dh_pers_int_persona_interaction");
+            //gr_int.addQuery('table', current_record.getTableName());
+            gr_int.query();
+
+            //verify that the filter and key phrases match with the given record
+            while (gr_int.next()) {
+                var res = GlideFilter.checkRecord(current_record, gr_int.filter + "", true);
+                if (res) {
+                    var key_phrases_str = gr_int.key_phrases + "";
+                    var key_phrases = [];
+                    if (key_phrases_str != "") {
+                        key_phrases = key_phrases_str.split('|');
+                        key_phrases.forEach(function(phrase) {
+                            if (comment.includes(phrase.toLowerCase())) {
+                                ap_interactions.push(gr_int.subflow + "");
+                            }
+                        });
+                    }
+
+                }
+            }
+            return ap_interactions;
+
+        } catch (ex) {
+            gs.error(ex.message);
+        }
+
+    },
+
+    createFlow: function(name, scope) {
+        try {
+            var internal_name = name.toLowerCase().replace(/ /g, "_");
+            var gr_flow = new GlideRecord("sys_hub_flow");
+            gr_flow.initialize();
+
+            gr_flow.name = name;
+            gr_flow.type = "subflow";
+            gr_flow.sys_scope = scope;
+            gr_flow.access = "public";
+            gr_flow.run_as = "system";
+            gr_flow.internal_name = internal_name;
+            var flow_id = gr_flow.insert();
+
+            if (flow_id) {
+                this.createInputs(flow_id + "", scope);
+                this.addCommonActions(flow_id + "", scope);
+                return flow_id;
+            } else {
+                return "";
+            }
+        } catch (ex) {
+            gs.error("There was an error generating the Subflow " + ex.message);
+        }
+
+    },
+    //create the subflow's inputs
+    createInputs: function(flow_id, scope) {
+        try {
+            var flow_variables = [{
+                    label: "Table",
+                    name: "table",
+                    type: "table_name"
+                },
+                {
+                    label: "Record",
+                    name: "record",
+                    type: "GUID"
+                },
+                {
+                    label: "Type",
+                    name: "type",
+                    type: "string"
+                },
+                {
+                    label: "Mention",
+                    name: "mention",
+                    type: "GUID"
+                },
+                {
+                    label: "Message",
+                    name: "message",
+                    type: "string"
+                }
+            ];
+
+            flow_variables.forEach(function(flow_var) {
+                var gr_input = new GlideRecord("sys_hub_flow_input");
+                gr_input.initialize();
+
+                gr_input.sys_scope = scope;
+                gr_input.column_label = flow_var.label;
+                gr_input.element = flow_var.name;
+                gr_input.internal_type = flow_var.type;
+                gr_input.model_id = flow_id;
+                gr_input.model = flow_id;
+                gr_input.mandatory = true;
+
+                gr_input.insert();
+            });
+        } catch (ex) {
+            gs.error("Something went wrong creating the subflow inputs " + ex.message);
+        }
+
+
+    },
+    getActionInputs: function(action_id) {
+        try {
+            var gr_action = new GlideRecord("sys_hub_action_input");
+            gr_action.addEncodedQuery("model=" + action_id);
+            gr_action.query();
+
+            var action_inputs = [];
+
+            while (gr_action.next()) {
+                action_inputs.push({
+                    table: gr_action.name + "",
+                    column_name: gr_action.element + ""
+                });
+            }
+
+            return action_inputs;
+        } catch (ex) {
+            gs.error("There was an error retrieving the action's inputs " + ex.message);
+        }
+
+    },
+    addCommonActions: function(flow_id, scope) {
+        try {
+            var utils = this;
+            var common_actions = ["c736d5cbdbe7a010b050bd5139961941", "75d8c69bdb232410b050bd513996199e"];
+            var order = 1;
+
+
+            common_actions.forEach(function(action_id) {
+                var gr_component = new GlideRecord("sys_hub_action_instance");
+                gr_component.initialize();
+                //var action_inputs = utils.getActionInputs(action_id);
+                var ui_id = generateIdentifier();
+
+
+                gr_component.sys_scope = scope;
+                gr_component.flow = flow_id;
+                gr_component.ui_id = ui_id;
+                gr_component.order = order;
+                gr_component.compiled_snapshot = action_id;
+                gr_component.action_type = action_id;
+
+                //This is to assign individual values to the action inputs
+                /*if(action_inputs.length > 0){
+                	action_inputs.forEach(function(action_input){
+                		gr_component.action_inputs[action_input.table][action_input.column_name] = "";
+                	});
+                }else{
+                	gr_component.action_inputs = {};
+                }*/
+
+                gr_component.action_inputs = {};
+
+                gr_component.insert();
+
+                order++;
+            });
+        } catch (ex) {
+            gs.error("Something went wrong adding the subflow's actions " + ex.message);
+        }
+
+    },
+
+    type: 'PersonaInteractions'
+};
+//Generate a random identifier for Action instances, the flow fails if the ui id is missing
+function generateIdentifier() {
+    try {
+        return 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0,
+                v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    } catch (ex) {
+        gs.error("Could not generate ui identifier " + ex.message);
+    }
+
+}]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-04-20 16:29:01</sys_created_on>
+        <sys_id>73fe0543dbe7a010b050bd51399619bd</sys_id>
+        <sys_mod_count>34</sys_mod_count>
+        <sys_name>PersonaInteractions</sys_name>
+        <sys_package display_value="DemoHub Persona Interactions" source="x_snc_dh_pers_int">5b870907dba7a010b050bd513996196a</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
+        <sys_update_name>sys_script_include_73fe0543dbe7a010b050bd51399619bd</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-05-03 14:55:15</sys_updated_on>
+    </sys_script_include>
+</record_update>
