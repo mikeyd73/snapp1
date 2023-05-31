@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="update_synch=true" db_object_id="03e8410bdba7a010b050bd5139961939" extends="sys_metadata" label="Persona Interaction" max_length="40" name="x_snc_dh_pers_int_persona_interaction" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Active" max_length="40" name="active" type="boolean"/>
+        <element label="Description" max_length="4000" name="description" type="string"/>
+        <element attributes="edge_encryption_enabled=true" dependent="table" dependent_on_field="table" label="Filter" max_length="4000" name="filter" type="conditions" use_dependent_field="true"/>
+        <element label="Key Phrases" mandatory="true" max_length="10000" name="key_phrases" type="string"/>
+        <element label="Name" max_length="70" name="name" type="string"/>
+        <element attributes="edge_encryption_enabled=true,encode_utf8=false" label="Subflow" max_length="32" name="subflow" reference="sys_hub_flow" reference_qual="active=true^type=subflow^EQ" reference_qual_condition="active=true^type=subflow^EQ" type="reference"/>
+        <element attributes="base_start=true,edge_encryption_enabled=true" label="Table" mandatory="true" max_length="80" name="table" type="table_name"/>
+        <index name="index">
+            <element name="subflow"/>
+        </index>
+    </element>
+</database>

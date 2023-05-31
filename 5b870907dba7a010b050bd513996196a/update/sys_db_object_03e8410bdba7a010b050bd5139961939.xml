@@ -9,7 +9,6 @@
         <create_access>true</create_access>
         <create_access_controls>true</create_access_controls>
         <delete_access>true</delete_access>
-        <extension_model/>
         <is_extendable>false</is_extendable>
         <label>Persona Interaction</label>
         <live_feed_enabled>false</live_feed_enabled>
@@ -18,10 +17,8 @@
         <provider_class/>
         <read_access>true</read_access>
         <scriptable_table>false</scriptable_table>
-        <super_class display_value="Application File" name="sys_metadata">0ef032101b103010af136426624bcb54</super_class>
-        <sys_class_code/>
+        <super_class display_value="Application File" name="sys_metadata">82b932324f313300343f9a211310c760</super_class>
         <sys_class_name>sys_db_object</sys_class_name>
-        <sys_class_path/>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2021-04-20 16:01:36</sys_created_on>
         <sys_id>03e8410bdba7a010b050bd5139961939</sys_id>

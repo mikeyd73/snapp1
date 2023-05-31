@@ -6,7 +6,6 @@
         <annotation/>
         <callable_by_client_api>false</callable_by_client_api>
         <category/>
-        <compiler_build/>
         <copied_from/>
         <copied_from_name/>
         <description/>
@@ -16,6 +15,7 @@
         <name>test</name>
         <natlang/>
         <outputs/>
+        <pre_compiled>false</pre_compiled>
         <remote_trigger_id/>
         <run_as>system</run_as>
         <run_with_roles/>
@@ -27,7 +27,6 @@
         <sys_created_by>enrique.castro</sys_created_by>
         <sys_created_on>2021-07-14 16:42:07</sys_created_on>
         <sys_domain>global</sys_domain>
-        <sys_domain_path>/</sys_domain_path>
         <sys_id>eb714bdadbd5fc505e214e79139619b2</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>test</sys_name>
@@ -37,23 +36,31 @@
         <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
         <sys_update_name>sys_hub_flow_eb714bdadbd5fc505e214e79139619b2</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-07-22 17:33:03</sys_updated_on>
+        <sys_updated_on>2021-10-04 09:40:49</sys_updated_on>
         <type>subflow</type>
     </sys_hub_flow>
     <sys_translated_text action="delete_multiple" query="documentkey=eb714bdadbd5fc505e214e79139619b2"/>
     <sys_variable_value action="delete_multiple" query="document_key=eb714bdadbd5fc505e214e79139619b2"/>
+    <sys_hub_trigger_instance action="delete_multiple" query="flow=eb714bdadbd5fc505e214e79139619b2"/>
+    <sys_hub_flow_stage action="delete_multiple" query="flow=eb714bdadbd5fc505e214e79139619b2"/>
     <sys_flow_cat_variable_model action="delete_multiple" query="id=eb714bdadbd5fc505e214e79139619b2^sys_idNOT IN6f718fdadbd5fc505e214e7913961914"/>
     <sys_flow_cat_variable_model action="INSERT_OR_UPDATE">
         <id>eb714bdadbd5fc505e214e79139619b2</id>
         <name>test</name>
+        <sys_class_name>sys_flow_cat_variable_model</sys_class_name>
         <sys_created_by>enrique.castro</sys_created_by>
         <sys_created_on>2021-07-14 16:42:07</sys_created_on>
         <sys_id>6f718fdadbd5fc505e214e7913961914</sys_id>
         <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package/>
+        <sys_policy/>
         <sys_scope/>
+        <sys_update_name/>
         <sys_updated_by>enrique.castro</sys_updated_by>
         <sys_updated_on>2021-07-14 16:42:07</sys_updated_on>
     </sys_flow_cat_variable_model>
+    <sys_flow_cat_variable action="delete_multiple" query="flow_catalog_model=6f718fdadbd5fc505e214e7913961914"/>
     <sys_hub_flow_input action="delete_multiple" query="model=eb714bdadbd5fc505e214e79139619b2^sys_idNOT IN33718fdadbd5fc505e214e791396195f,77718fdadbd5fc505e214e7913961954,b7718fdadbd5fc505e214e791396191a,bb718fdadbd5fc505e214e7913961959,c4818fdadbd5fc505e214e7913961964"/>
     <sys_hub_flow_input action="INSERT_OR_UPDATE">
         <active>true</active>
@@ -86,6 +93,7 @@
         <element>mention</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -132,6 +140,7 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
@@ -167,6 +176,7 @@
         <element>record</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -213,6 +223,7 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
@@ -248,6 +259,7 @@
         <element>table</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -294,6 +306,7 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
@@ -329,6 +342,7 @@
         <element>type</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -375,6 +389,7 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
@@ -410,6 +425,7 @@
         <element>message</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -456,10 +472,13 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
     </sys_hub_flow_input>
+    <sys_hub_flow_output action="delete_multiple" query="model=eb714bdadbd5fc505e214e79139619b2"/>
+    <sys_hub_alias_mapping action="delete_multiple" query="source_id=eb714bdadbd5fc505e214e79139619b2"/>
     <sys_hub_action_instance action="delete_multiple" query="flow=eb714bdadbd5fc505e214e79139619b2^sys_idNOT IN00818fdadbd5fc505e214e791396196a,40818fdadbd5fc505e214e791396196b"/>
     <sys_hub_action_instance action="INSERT_OR_UPDATE">
         <action_inputs/>
@@ -467,7 +486,6 @@
         <action_type display_value="DHPI - Impersonate User">c736d5cbdbe7a010b050bd5139961941</action_type>
         <action_type_parent/>
         <comment/>
-        <compiled_snapshot>c736d5cbdbe7a010b050bd5139961941</compiled_snapshot>
         <display_text/>
         <flow display_value="test">eb714bdadbd5fc505e214e79139619b2</flow>
         <order>1</order>
@@ -477,7 +495,11 @@
         <sys_created_on>2021-07-14 16:42:09</sys_created_on>
         <sys_id>00818fdadbd5fc505e214e791396196a</sys_id>
         <sys_mod_count>9</sys_mod_count>
+        <sys_name/>
+        <sys_package/>
+        <sys_policy/>
         <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
+        <sys_update_name/>
         <sys_updated_by>enrique.castro</sys_updated_by>
         <sys_updated_on>2021-07-15 16:10:44</sys_updated_on>
         <ui_id>a6a4aaac-90ae-4d1a-a2bf-93ffd4762618</ui_id>
@@ -496,13 +518,14 @@
         <table>var__m_sys_hub_action_input_c736d5cbdbe7a010b050bd5139961941</table>
         <value>{{subflow.mention}}</value>
     </sys_element_mapping>
+    <sys_hub_input_scripts action="delete_multiple" query="instance=00818fdadbd5fc505e214e791396196a"/>
+    <sys_hub_alias_mapping action="delete_multiple" query="source_id=00818fdadbd5fc505e214e791396196a"/>
     <sys_hub_action_instance action="INSERT_OR_UPDATE">
         <action_inputs/>
         <action_inputs/>
         <action_type display_value="DHPI - Get Response">75d8c69bdb232410b050bd513996199e</action_type>
         <action_type_parent/>
         <comment/>
-        <compiled_snapshot>75d8c69bdb232410b050bd513996199e</compiled_snapshot>
         <display_text/>
         <flow display_value="test">eb714bdadbd5fc505e214e79139619b2</flow>
         <order>2</order>
@@ -512,7 +535,11 @@
         <sys_created_on>2021-07-14 16:42:09</sys_created_on>
         <sys_id>40818fdadbd5fc505e214e791396196b</sys_id>
         <sys_mod_count>7</sys_mod_count>
+        <sys_name/>
+        <sys_package/>
+        <sys_policy/>
         <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
+        <sys_update_name/>
         <sys_updated_by>enrique.castro</sys_updated_by>
         <sys_updated_on>2021-07-15 16:10:44</sys_updated_on>
         <ui_id>0907b7f7-e18f-4bab-84e8-301994845729</ui_id>
@@ -605,6 +632,12 @@
         <table>var__m_sys_hub_action_input_75d8c69bdb232410b050bd513996199e</table>
         <value>{{subflow.mention}}</value>
     </sys_element_mapping>
+    <sys_hub_input_scripts action="delete_multiple" query="instance=40818fdadbd5fc505e214e791396196b"/>
+    <sys_hub_alias_mapping action="delete_multiple" query="source_id=40818fdadbd5fc505e214e791396196b"/>
+    <sys_hub_sub_flow_instance action="delete_multiple" query="flow=eb714bdadbd5fc505e214e79139619b2"/>
+    <sys_hub_flow_logic action="delete_multiple" query="flow=eb714bdadbd5fc505e214e79139619b2"/>
+    <sys_hub_pill_compound action="delete_multiple" query="attached_to=eb714bdadbd5fc505e214e79139619b2"/>
+    <sys_hub_flow_variable action="delete_multiple" query="model=eb714bdadbd5fc505e214e79139619b2"/>
     <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_flow_input_eb714bdadbd5fc505e214e79139619b2^sys_idNOT IN6f938cf6db1170905e214e7913961992,a3938cf6db1170905e214e791396199a,a3938cf6db1170905e214e79139619a1,a3938cf6db1170905e214e79139619a8,a3938cf6db1170905e214e79139619af"/>
     <sys_documentation action="INSERT_OR_UPDATE">
         <element>message</element>
@@ -721,19 +754,27 @@
         <url/>
         <url_target/>
     </sys_documentation>
+    <sys_choice action="delete_multiple" query="name=var__m_sys_hub_flow_input_eb714bdadbd5fc505e214e79139619b2"/>
+    <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_flow_output_eb714bdadbd5fc505e214e79139619b2"/>
+    <sys_choice action="delete_multiple" query="name=var__m_sys_hub_flow_output_eb714bdadbd5fc505e214e79139619b2"/>
+    <sys_flow_trigger_plan action="delete_multiple" query="plan_id=eb714bdadbd5fc505e214e79139619b2"/>
     <sys_flow_subflow_plan action="delete_multiple" query="plan_id=eb714bdadbd5fc505e214e79139619b2^sys_idNOT INa5e3843adb1170905e214e791396198b"/>
     <sys_flow_subflow_plan action="INSERT_OR_UPDATE">
         <plan>com.snc.process_flow.engine.ProcessPlan@3f6422</plan>
         <plan_id display_value="test">eb714bdadbd5fc505e214e79139619b2</plan_id>
         <snapshot>f8e3443adb1170905e214e79139619bc</snapshot>
+        <sys_class_name>sys_flow_subflow_plan</sys_class_name>
         <sys_created_by>enrique.castro</sys_created_by>
         <sys_created_on>2021-07-15 16:10:44</sys_created_on>
         <sys_domain>global</sys_domain>
-        <sys_domain_path>/</sys_domain_path>
         <sys_id>a5e3843adb1170905e214e791396198b</sys_id>
         <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
         <sys_overrides/>
+        <sys_package/>
+        <sys_policy/>
         <sys_scope/>
+        <sys_update_name/>
         <sys_updated_by>enrique.castro</sys_updated_by>
         <sys_updated_on>2021-07-15 16:10:44</sys_updated_on>
     </sys_flow_subflow_plan>
@@ -763,7 +804,6 @@
         <sys_created_by>enrique.castro</sys_created_by>
         <sys_created_on>2021-07-15 16:10:41</sys_created_on>
         <sys_domain>global</sys_domain>
-        <sys_domain_path>/</sys_domain_path>
         <sys_id>f8e3443adb1170905e214e79139619bc</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name/>
@@ -778,18 +818,26 @@
     </sys_hub_flow_snapshot>
     <sys_translated_text action="delete_multiple" query="documentkey=f8e3443adb1170905e214e79139619bc"/>
     <sys_variable_value action="delete_multiple" query="document_key=f8e3443adb1170905e214e79139619bc"/>
+    <sys_hub_trigger_instance action="delete_multiple" query="flow=f8e3443adb1170905e214e79139619bc"/>
+    <sys_hub_flow_stage action="delete_multiple" query="flow=f8e3443adb1170905e214e79139619bc"/>
     <sys_flow_cat_variable_model action="delete_multiple" query="id=f8e3443adb1170905e214e79139619bc^sys_idNOT IN34e3443adb1170905e214e79139619be"/>
     <sys_flow_cat_variable_model action="INSERT_OR_UPDATE">
         <id>f8e3443adb1170905e214e79139619bc</id>
         <name>test</name>
+        <sys_class_name>sys_flow_cat_variable_model</sys_class_name>
         <sys_created_by>enrique.castro</sys_created_by>
         <sys_created_on>2021-07-15 16:10:41</sys_created_on>
         <sys_id>34e3443adb1170905e214e79139619be</sys_id>
         <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package/>
+        <sys_policy/>
         <sys_scope/>
+        <sys_update_name/>
         <sys_updated_by>enrique.castro</sys_updated_by>
         <sys_updated_on>2021-07-15 16:10:41</sys_updated_on>
     </sys_flow_cat_variable_model>
+    <sys_flow_cat_variable action="delete_multiple" query="flow_catalog_model=34e3443adb1170905e214e79139619be"/>
     <sys_hub_flow_input action="delete_multiple" query="model=f8e3443adb1170905e214e79139619bc^sys_idNOT IN34e3443adb1170905e214e79139619fa,81e3843adb1170905e214e7913961905,81e3843adb1170905e214e7913961910,c1e3843adb1170905e214e791396191b,f8e3443adb1170905e214e79139619bf"/>
     <sys_hub_flow_input action="INSERT_OR_UPDATE">
         <active>true</active>
@@ -822,6 +870,7 @@
         <element>type</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -868,6 +917,7 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
@@ -903,6 +953,7 @@
         <element>table</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -949,6 +1000,7 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
@@ -984,6 +1036,7 @@
         <element>record</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -1030,6 +1083,7 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
@@ -1065,6 +1119,7 @@
         <element>mention</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -1111,6 +1166,7 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
@@ -1146,6 +1202,7 @@
         <element>message</element>
         <element_reference>false</element_reference>
         <foreign_database/>
+        <formula/>
         <function_definition/>
         <function_field>false</function_field>
         <help/>
@@ -1192,10 +1249,13 @@
         <use_dynamic_default>false</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
+        <virtual_type>script</virtual_type>
         <widget/>
         <write_roles/>
         <xml_view>false</xml_view>
     </sys_hub_flow_input>
+    <sys_hub_flow_output action="delete_multiple" query="model=f8e3443adb1170905e214e79139619bc"/>
+    <sys_hub_alias_mapping action="delete_multiple" query="source_id=f8e3443adb1170905e214e79139619bc"/>
     <sys_hub_action_instance action="delete_multiple" query="flow=f8e3443adb1170905e214e79139619bc^sys_idNOT INc5e3843adb1170905e214e7913961930,dde3843adb1170905e214e7913961946"/>
     <sys_hub_action_instance action="INSERT_OR_UPDATE">
         <action_inputs/>
@@ -1203,7 +1263,6 @@
         <action_type display_value="DHPI - Impersonate User">c736d5cbdbe7a010b050bd5139961941</action_type>
         <action_type_parent display_value="DHPI - Impersonate User">e4a5598bdbe7a010b050bd5139961991</action_type_parent>
         <comment/>
-        <compiled_snapshot>c736d5cbdbe7a010b050bd5139961941</compiled_snapshot>
         <display_text/>
         <flow display_value="test">f8e3443adb1170905e214e79139619bc</flow>
         <order>1</order>
@@ -1213,7 +1272,11 @@
         <sys_created_on>2021-07-15 16:10:42</sys_created_on>
         <sys_id>c5e3843adb1170905e214e7913961930</sys_id>
         <sys_mod_count>2</sys_mod_count>
+        <sys_name/>
+        <sys_package/>
+        <sys_policy/>
         <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
+        <sys_update_name/>
         <sys_updated_by>enrique.castro</sys_updated_by>
         <sys_updated_on>2021-07-15 16:10:42</sys_updated_on>
         <ui_id>a6a4aaac-90ae-4d1a-a2bf-93ffd4762618</ui_id>
@@ -1232,13 +1295,14 @@
         <table>var__m_sys_hub_action_input_c736d5cbdbe7a010b050bd5139961941</table>
         <value>{{subflow.mention}}</value>
     </sys_element_mapping>
+    <sys_hub_input_scripts action="delete_multiple" query="instance=c5e3843adb1170905e214e7913961930"/>
+    <sys_hub_alias_mapping action="delete_multiple" query="source_id=c5e3843adb1170905e214e7913961930"/>
     <sys_hub_action_instance action="INSERT_OR_UPDATE">
         <action_inputs/>
         <action_inputs/>
         <action_type display_value="DHPI - Get Response">75d8c69bdb232410b050bd513996199e</action_type>
         <action_type_parent display_value="DHPI - Get Response">3517ced7db232410b050bd513996199b</action_type_parent>
         <comment/>
-        <compiled_snapshot>75d8c69bdb232410b050bd513996199e</compiled_snapshot>
         <display_text/>
         <flow display_value="test">f8e3443adb1170905e214e79139619bc</flow>
         <order>2</order>
@@ -1248,7 +1312,11 @@
         <sys_created_on>2021-07-15 16:10:43</sys_created_on>
         <sys_id>dde3843adb1170905e214e7913961946</sys_id>
         <sys_mod_count>2</sys_mod_count>
+        <sys_name/>
+        <sys_package/>
+        <sys_policy/>
         <sys_scope display_value="DemoHub Persona Interactions">5b870907dba7a010b050bd513996196a</sys_scope>
+        <sys_update_name/>
         <sys_updated_by>enrique.castro</sys_updated_by>
         <sys_updated_on>2021-07-15 16:10:43</sys_updated_on>
         <ui_id>0907b7f7-e18f-4bab-84e8-301994845729</ui_id>
@@ -1341,6 +1409,12 @@
         <table>var__m_sys_hub_action_input_75d8c69bdb232410b050bd513996199e</table>
         <value>{{subflow.mention}}</value>
     </sys_element_mapping>
+    <sys_hub_input_scripts action="delete_multiple" query="instance=dde3843adb1170905e214e7913961946"/>
+    <sys_hub_alias_mapping action="delete_multiple" query="source_id=dde3843adb1170905e214e7913961946"/>
+    <sys_hub_sub_flow_instance action="delete_multiple" query="flow=f8e3443adb1170905e214e79139619bc"/>
+    <sys_hub_flow_logic action="delete_multiple" query="flow=f8e3443adb1170905e214e79139619bc"/>
+    <sys_hub_pill_compound action="delete_multiple" query="attached_to=f8e3443adb1170905e214e79139619bc"/>
+    <sys_hub_flow_variable action="delete_multiple" query="model=f8e3443adb1170905e214e79139619bc"/>
     <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_flow_input_f8e3443adb1170905e214e79139619bc^sys_idNOT IN05e3843adb1170905e214e7913961922,41e3843adb1170905e214e7913961901,41e3843adb1170905e214e791396190c,81e3843adb1170905e214e7913961917,f0e3443adb1170905e214e79139619f6"/>
     <sys_documentation action="INSERT_OR_UPDATE">
         <element>mention</element>
@@ -1457,8 +1531,12 @@
         <url/>
         <url_target/>
     </sys_documentation>
-    <sys_hub_flow action="update">
+    <sys_choice action="delete_multiple" query="name=var__m_sys_hub_flow_input_f8e3443adb1170905e214e79139619bc"/>
+    <sys_documentation action="delete_multiple" query="name=var__m_sys_hub_flow_output_f8e3443adb1170905e214e79139619bc"/>
+    <sys_choice action="delete_multiple" query="name=var__m_sys_hub_flow_output_f8e3443adb1170905e214e79139619bc"/>
+    <sys_hub_flow action="UPDATE">
         <sys_id>eb714bdadbd5fc505e214e79139619b2</sys_id>
         <latest_snapshot>f8e3443adb1170905e214e79139619bc</latest_snapshot>
+        <compiler_build/>
     </sys_hub_flow>
 </record_update>
